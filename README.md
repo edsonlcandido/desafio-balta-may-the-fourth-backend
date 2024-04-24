@@ -13,12 +13,12 @@ Desenvolvimento de uma API completa, fornecendo recursos como criação, leitura
 
 ## Participantes
 ### 🚀 Capitão
-[NOME e GITHUB]
+Davi Francisco [/KingOfTheHunt](https://github.com/KingOfTheHunt)
 
 ### 💂‍♀️ Batalhão
-* [NOME e GITHUB]
-* [NOME e GITHUB]
-* [NOME e GITHUB]
+* Edson Candido [/edsonlcandido](https://github.com/edsonlcandido)
+* Rafael Travagin [/Rafael-Travagin](https://github.com/Rafael-Travagin)
+* Vitor Gabriel [/vgabriel10](https://github.com/vgabriel10)
 * [NOME e GITHUB]
 
 ## ⚙️ Tecnologias
