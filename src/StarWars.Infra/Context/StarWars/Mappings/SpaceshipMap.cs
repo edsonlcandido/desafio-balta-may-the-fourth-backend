@@ -8,7 +8,7 @@ public class SpaceshipMap : IEntityTypeConfiguration<Spaceship>
 {
     public void Configure(EntityTypeBuilder<Spaceship> builder)
     {
-        builder.ToTable("Vehicle");
+        builder.ToTable("Spaceship");
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
