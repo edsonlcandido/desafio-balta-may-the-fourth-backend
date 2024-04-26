@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using StarWars.Core;
+using StarWars.Infra.Data;
 
 namespace StarWars.Api.Extensions;
 
@@ -16,10 +14,11 @@ public static class BuilderExtension
 
     public static void AddDatabase(this WebApplicationBuilder builder)
     {
-        // builder.Services.AddDbContext<AppDbContext>(x =>
-        //     x.UseSqlite(
-        //         Configuration.Database.ConnectionString,
-        //         b => b.MigrationsAssembly("StarWars.Api")));
+        builder.Services.AddDbContext<AppDbContext>(options => 
+        {
+            options.UseSqlite(Configuration.Database.ConnectionString, 
+                opt => opt.MigrationsAssembly("StarWars.Api"));
+        });
     }
 
     public static void AddMediator(this WebApplicationBuilder builder)
