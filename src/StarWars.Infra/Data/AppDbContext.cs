@@ -15,5 +15,9 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new FilmMap());
+        modelBuilder.ApplyConfiguration(new CharacterMap());
+        modelBuilder.ApplyConfiguration(new PlanetMap());
+        modelBuilder.ApplyConfiguration(new VehicleMap());
+        modelBuilder.ApplyConfiguration(new SpaceshipMap());
     }
 }
