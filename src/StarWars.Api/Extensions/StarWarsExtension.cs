@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using StarWars.Core.Context.StarWars.UseCases.GetFilmById;
 
 namespace StarWars.Api.Extensions;
@@ -23,6 +24,21 @@ public static class StarWarsExtension
         >();
 
         #endregion
+
+        #region builder Vehicle
+            
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetVehicles.Contracts.IRepository,
+            Infra.Context.StarWars.UseCases.GetVehicles.Repository
+        >();
+
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetVehicleById.Contracts.IRepository,
+            Infra.Context.StarWars.UseCases.GetVehicleById.Repository
+        >();
+
+        #endregion
+
     }
 
     public static void MapStarWarsEndpoints(this WebApplication app)
@@ -72,9 +88,59 @@ public static class StarWarsExtension
         
         #endregion
 
-        #region EndPoint Veiculos
+        #region EndPoint Vehicle
 
-        app.MapGet("api/v1/veiculos", () => "veiculos");
+        app.MapGet("api/v1/veiculos", async (
+            [AsParameters] Core.Context.StarWars.UseCases.GetVehicles.Request request,
+            IRequestHandler<
+                Core.Context.StarWars.UseCases.GetVehicles.Request,
+                Core.Context.StarWars.UseCases.GetVehicles.Response> handler) =>
+        {         
+            try{
+                var result = await handler.Handle(request, new CancellationToken());
+                if (!result.IsSuccess)
+                    return Results.Json(result, statusCode: result.Status);
+
+                if (result.Data is null)
+                    return Results.Json(result, statusCode: 500);
+
+                return Results.Ok(result);
+            } 
+            catch (Exception ex)
+            {                              
+                return Results.Json(
+                    new Core.Context.StarWars.UseCases.GetVehicles.Response(ex.Message, 500)
+                );
+            }
+            
+        });
+
+        app.MapGet("api/v1/veiculos/{id:int}", async ( 
+            [AsParameters] Core.Context.StarWars.UseCases.GetVehicleById.Request request,
+            IRequestHandler<
+                Core.Context.StarWars.UseCases.GetVehicleById.Request,
+                Core.Context.StarWars.UseCases.GetVehicleById.Response> handler) =>
+        {
+            try
+            {
+                if (request.IsInvalid()) return Results.Json(
+                    new Core.Context.StarWars.UseCases.GetVehicleById.Response("Invalid parameter", 422)
+                 );
+                var result = await handler.Handle(request, new CancellationToken());
+
+                if (result.IsSuccess)
+                    return Results.Ok(result);
+
+                return Results.Json(result, statusCode: result.Status);
+            }
+            catch (Exception ex)
+            {                
+                return Results.Json(
+                    new Core.Context.StarWars.UseCases.GetVehicleById.Response(ex.Message, 500)
+                );
+            }
+            
+        });
 
         #endregion
 
