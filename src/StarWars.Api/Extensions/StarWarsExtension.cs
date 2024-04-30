@@ -42,7 +42,11 @@ public static class StarWarsExtension
         #region builder Spaceships
         builder.Services.AddTransient<
                        Core.Context.StarWars.UseCases.GetSpaceships.Contracts.IRepository,
-                                  Infra.Context.StarWars.UseCases.GetSpaceships.Repository>();
+                                  Infra.Context.StarWars.UseCases.GetSpaceships.Repository>
+                                  ();
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetSpaceshipById.Contract.IRepository,
+            Infra.Context.StarWars.UseCases.GetSpaceshipByid.Repository>();
         #endregion
 
     }
@@ -163,6 +167,19 @@ public static class StarWarsExtension
                 return Results.Json(result, statusCode: result.Status);
             }
         );
+
+        app.MapGet("api/v1/naves-estelares/{id:int}", async (int id, IRequestHandler<Core.Context.StarWars.UseCases.GetSpaceshipById.Request,
+                       Core.Context.StarWars.UseCases.GetSpaceshipById.Response> handler) =>
+        {
+                var request = new Core.Context.StarWars.UseCases.GetSpaceshipById.Request
+                {
+                    Id = id
+                };
+                var result = await handler.Handle(request, new CancellationToken());
+                if (result.IsSuccess)
+                    return Results.Ok(result);
+                return Results.Json(result, statusCode: result.Status);
+            });
 
         #endregion
     }
