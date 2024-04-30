@@ -26,7 +26,7 @@ public static class StarWarsExtension
         #endregion
 
         #region builder Vehicle
-            
+
         builder.Services.AddTransient<
             Core.Context.StarWars.UseCases.GetVehicles.Contracts.IRepository,
             Infra.Context.StarWars.UseCases.GetVehicles.Repository
@@ -39,6 +39,16 @@ public static class StarWarsExtension
 
         #endregion
 
+        #region builder Spaceships
+        builder.Services.AddTransient<
+                       Core.Context.StarWars.UseCases.GetSpaceships.Contracts.IRepository,
+                                  Infra.Context.StarWars.UseCases.GetSpaceships.Repository>
+                                  ();
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetSpaceshipById.Contract.IRepository,
+            Infra.Context.StarWars.UseCases.GetSpaceshipByid.Repository>();
+        #endregion
+
     }
 
     public static void MapStarWarsEndpoints(this WebApplication app)
@@ -46,7 +56,7 @@ public static class StarWarsExtension
         #region EndPoint Filmes
 
         app.MapGet("api/v1/filmes", async (IRequestHandler<Core.Context.StarWars.UseCases.GetFilms.Request,
-            Core.Context.StarWars.UseCases.GetFilms.Response> handler) => 
+            Core.Context.StarWars.UseCases.GetFilms.Response> handler) =>
         {
             var request = new Core.Context.StarWars.UseCases.GetFilms.Request();
 
@@ -60,9 +70,9 @@ public static class StarWarsExtension
 
         app.MapGet("api/v1/filmes/{id:int}", async (int id, IRequestHandler<
             Core.Context.StarWars.UseCases.GetFilmById.Request,
-            Core.Context.StarWars.UseCases.GetFilmById.Response> handler) => 
+            Core.Context.StarWars.UseCases.GetFilmById.Response> handler) =>
             {
-                var request = new Core.Context.StarWars.UseCases.GetFilmById.Request 
+                var request = new Core.Context.StarWars.UseCases.GetFilmById.Request
                 {
                     Id = id
                 };
@@ -83,9 +93,9 @@ public static class StarWarsExtension
         #endregion
 
         #region EndPoint Planetas
-        
+
         app.MapGet("api/v1/planetas", () => "planetas");
-        
+
         #endregion
 
         #region EndPoint Vehicle
@@ -95,8 +105,9 @@ public static class StarWarsExtension
             IRequestHandler<
                 Core.Context.StarWars.UseCases.GetVehicles.Request,
                 Core.Context.StarWars.UseCases.GetVehicles.Response> handler) =>
-        {         
-            try{
+        {
+            try
+            {
                 var result = await handler.Handle(request, new CancellationToken());
                 if (!result.IsSuccess)
                     return Results.Json(result, statusCode: result.Status);
@@ -105,17 +116,17 @@ public static class StarWarsExtension
                     return Results.Json(result, statusCode: 500);
 
                 return Results.Ok(result);
-            } 
+            }
             catch (Exception ex)
-            {                              
+            {
                 return Results.Json(
                     new Core.Context.StarWars.UseCases.GetVehicles.Response(ex.Message, 500)
                 );
             }
-            
+
         });
 
-        app.MapGet("api/v1/veiculos/{id:int}", async ( 
+        app.MapGet("api/v1/veiculos/{id:int}", async (
             [AsParameters] Core.Context.StarWars.UseCases.GetVehicleById.Request request,
             IRequestHandler<
                 Core.Context.StarWars.UseCases.GetVehicleById.Request,
@@ -134,22 +145,44 @@ public static class StarWarsExtension
                 return Results.Json(result, statusCode: result.Status);
             }
             catch (Exception ex)
-            {                
+            {
                 return Results.Json(
                     new Core.Context.StarWars.UseCases.GetVehicleById.Response(ex.Message, 500)
                 );
             }
-            
+
         });
 
         #endregion
 
         #region EndPoint Naves Estelares
 
-        app.MapGet("api/v1/naves-estelares", () => "naves-estelares");
+        app.MapGet("api/v1/naves-estelares", async (IRequestHandler<Core.Context.StarWars.UseCases.GetSpaceships.Request, 
+            Core.Context.StarWars.UseCases.GetSpaceships.Response> handler) =>
+            {
+                var request = new Core.Context.StarWars.UseCases.GetSpaceships.Request();
+                var result = await handler.Handle(request, new CancellationToken());
+                if (result.IsSuccess)
+                    return Results.Ok(result);
+                return Results.Json(result, statusCode: result.Status);
+            }
+        );
+
+        app.MapGet("api/v1/naves-estelares/{id:int}", async (int id, IRequestHandler<Core.Context.StarWars.UseCases.GetSpaceshipById.Request,
+                       Core.Context.StarWars.UseCases.GetSpaceshipById.Response> handler) =>
+        {
+                var request = new Core.Context.StarWars.UseCases.GetSpaceshipById.Request
+                {
+                    Id = id
+                };
+                var result = await handler.Handle(request, new CancellationToken());
+                if (result.IsSuccess)
+                    return Results.Ok(result);
+                return Results.Json(result, statusCode: result.Status);
+            });
 
         #endregion
     }
-    
-    
+
+
 }
