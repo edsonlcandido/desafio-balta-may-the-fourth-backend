@@ -22,6 +22,11 @@ public static class StarWarsExtension
             Infra.Context.StarWars.UseCases.GetFilmById.Repository
         >();
 
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetCharacters.Contracts.IRepository,
+            Infra.Context.StarWars.UseCases.GetCharacters.Repository
+        >();
+
         #endregion
     }
 
@@ -62,7 +67,19 @@ public static class StarWarsExtension
 
         #region EndPoint Personagens
 
-        app.MapGet("api/v1/personagens", () => "personagens");
+        app.MapGet("api/v1/personagens", async (IRequestHandler<Core.Context.StarWars.UseCases.GetCharacters.Request,
+            Core.Context.StarWars.UseCases.GetCharacters.Response> handler) =>
+        {
+            var request = new Core.Context.StarWars.UseCases.GetCharacters.Request();
+
+            var result = await handler.Handle(request, new CancellationToken());
+
+            if (result.IsSuccess)
+                return Results.Ok(result);
+
+            return Results.Json(result,statusCode: result.Status);
+
+        });
 
         #endregion
 
