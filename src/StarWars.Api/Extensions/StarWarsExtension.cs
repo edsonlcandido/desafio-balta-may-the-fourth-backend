@@ -23,10 +23,7 @@ public static class StarWarsExtension
             Infra.Context.StarWars.UseCases.GetFilmById.Repository
         >();
 
-        builder.Services.AddTransient<
-            Core.Context.StarWars.UseCases.GetCharacters.Contracts.IRepository,
-            Infra.Context.StarWars.UseCases.GetCharacters.Repository
-        >();
+        
 
         #endregion
 
@@ -41,6 +38,21 @@ public static class StarWarsExtension
             Core.Context.StarWars.UseCases.GetVehicleById.Contracts.IRepository,
             Infra.Context.StarWars.UseCases.GetVehicleById.Repository
         >();
+
+        #endregion
+
+        #region builder Character
+
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetCharacters.Contracts.IRepository,
+            Infra.Context.StarWars.UseCases.GetCharacters.Repository
+        >();
+
+        builder.Services.AddTransient<
+            Core.Context.StarWars.UseCases.GetCharacterById.Contracts.IRepository,
+            Infra.Context.StarWars.UseCases.GetCharacterById.Repository
+        >();
+
 
         #endregion
 
@@ -83,7 +95,7 @@ public static class StarWarsExtension
 
         #region EndPoint Personagens
 
-        app.MapGet("api/v1/personagens", async (
+        app.MapGet("api/v1/personagens/", async (
             [AsParameters] Core.Context.StarWars.UseCases.GetCharacters.Request request,
             IRequestHandler<Core.Context.StarWars.UseCases.GetCharacters.Request,
             Core.Context.StarWars.UseCases.GetCharacters.Response> handler) =>
@@ -108,10 +120,28 @@ public static class StarWarsExtension
 
         });
 
+        app.MapGet("api/v1/personagens/{id:int}", async (
+            int id, IRequestHandler<
+            Core.Context.StarWars.UseCases.GetCharacterById.Request,
+            Core.Context.StarWars.UseCases.GetCharacterById.Response> handler) =>
+        {
+            var request = new Core.Context.StarWars.UseCases.GetCharacterById.Request
+            {
+                Id = id
+            };
+            var result = await handler.Handle(request, new CancellationToken());
+
+            if (result.IsSuccess)
+                return Results.Ok(result);
+
+            return Results.Json(result, statusCode: result.Status);
+
+        });
+
         #endregion
 
         #region EndPoint Planetas
-        
+
         app.MapGet("api/v1/planetas", () => "planetas");
         
         #endregion
