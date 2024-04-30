@@ -20,6 +20,6 @@ public class Vehicle : ViewObjects
     public string CargoCapacity { get; set; } = string.Empty;
     public string Consumables { get; set; } = string.Empty;
     public string Class { get; set; } = string.Empty;
-    public IEnumerable<Film>? Films { get; set; } = null;
+    public IEnumerable<Film>? Movies { get; set; } = null;
     
 }
