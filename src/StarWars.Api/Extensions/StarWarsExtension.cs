@@ -83,17 +83,28 @@ public static class StarWarsExtension
 
         #region EndPoint Personagens
 
-        app.MapGet("api/v1/personagens", async (IRequestHandler<Core.Context.StarWars.UseCases.GetCharacters.Request,
+        app.MapGet("api/v1/personagens", async (
+            [AsParameters] Core.Context.StarWars.UseCases.GetCharacters.Request request,
+            IRequestHandler<Core.Context.StarWars.UseCases.GetCharacters.Request,
             Core.Context.StarWars.UseCases.GetCharacters.Response> handler) =>
         {
-            var request = new Core.Context.StarWars.UseCases.GetCharacters.Request();
+            try
+            {
+                var result = await handler.Handle(request, new CancellationToken());
+                if (!result.IsSuccess)
+                    return Results.Json(result, statusCode: result.Status);
 
-            var result = await handler.Handle(request, new CancellationToken());
+                if (result.Data is null)
+                    return Results.Json(result, statusCode: 500);
 
-            if (result.IsSuccess)
                 return Results.Ok(result);
-
-            return Results.Json(result,statusCode: result.Status);
+            }
+            catch (Exception ex)
+            {
+                return Results.Json(
+                    new Core.Context.StarWars.UseCases.GetVehicles.Response(ex.Message, 500)
+                );
+            }
 
         });
 

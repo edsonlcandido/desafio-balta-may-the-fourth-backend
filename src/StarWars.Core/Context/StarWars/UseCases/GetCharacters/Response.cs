@@ -38,7 +38,12 @@ namespace StarWars.Core.Context.StarWars.UseCases.GetCharacters
         public string Gender { get; set; } = string.Empty;
         //public int PlanetId { get; set; }
         //public Planet Planet { get; set; } = null!;
-        public string Planeta {  get; set; } = string.Empty;
-        public IEnumerable<Film> Films { get; set; } = [];
+
+        //public dynamic Planet { get; set; } = null!;
+        public IEnumerable<dynamic> Films { get; set; } = [];
+
+
+
+
     }
 }

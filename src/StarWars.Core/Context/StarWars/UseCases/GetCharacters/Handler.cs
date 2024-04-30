@@ -20,5 +20,8 @@ public class Handler : IRequestHandler<Request, Response>
             return new Response(404, "Não foi encontrado nenhum personagem");
 
         return new Response(200, "Personagens", data);
+
+
+        
     }
 }
