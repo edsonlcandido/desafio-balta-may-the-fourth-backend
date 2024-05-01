@@ -20,6 +20,7 @@ namespace StarWars.Infra.Context.StarWars.UseCases.GetCharacterById
             return await _context.Characters
                 .AsNoTracking()
                 .Include(x => x.Films)
+                .Include(x => x.Planet)
                 .Where(x => x.Id == id)
                 .Select<Character, ResponseData>(x => new ResponseData
                 {
@@ -31,7 +32,8 @@ namespace StarWars.Infra.Context.StarWars.UseCases.GetCharacterById
                     Name = x.Name,
                     SkinColor = x.SkinColor,
                     Weight = x.Weight,
-                    Films = x.Films.Select(y => new { y.Id, y.Title })
+                    Planet = new { Id = x.Planet.Id, Name = x.Planet.Name },
+                    Movies = x.Films.Select(y => new { y.Id, y.Title })
 
                 }).FirstOrDefaultAsync();
         }

@@ -36,14 +36,7 @@ namespace StarWars.Core.Context.StarWars.UseCases.GetCharacterById
         public string EyeColor { get; set; } = string.Empty;
         public string BirthYear { get; set; } = string.Empty;
         public string Gender { get; set; } = string.Empty;
-        //public int PlanetId { get; set; }
-        //public Planet Planet { get; set; } = null!;
-
-        //public dynamic Planet { get; set; } = null!;
-        public IEnumerable<dynamic> Films { get; set; } = [];
-
-
-
-
+        public dynamic Planet { get; set; } = null!;
+        public IEnumerable<dynamic> Movies { get; set; } = [];
     }
 }

@@ -18,21 +18,22 @@ namespace StarWars.Infra.Context.StarWars.UseCases.GetCharacters
         public async Task<List<ResponseData>> GetCharactersAsync(CancellationToken cancellationToken)
         {
             return await _context.Characters
-                .AsNoTracking()
-                .Include(x => x.Films)
-                .Select<Character, ResponseData>(x => new ResponseData
-                {
-                    BirthYear = x.BirthYear,
-                    EyeColor = x.EyeColor,
-                    Gender = x.Gender,
-                    HairColor = x.HairColor,
-                    Height = x.Height,
-                    Name = x.Name,
-                    SkinColor = x.SkinColor,
-                    Weight = x.Weight,
-                    Films = x.Films.Select(y => new { y.Id, y.Title })
-
-                }).ToListAsync();
+            .AsNoTracking()
+            .Include(x => x.Films)
+            .Include(x => x.Planet)
+            .Select<Character, ResponseData>(x => new ResponseData
+            {
+                BirthYear = x.BirthYear,
+                EyeColor = x.EyeColor,
+                Gender = x.Gender,
+                HairColor = x.HairColor,
+                Height = x.Height,
+                Name = x.Name,
+                SkinColor = x.SkinColor,
+                Weight = x.Weight,
+                Planet = new { Id = x.Planet.Id, Name = x.Planet.Name },
+                Movies = x.Films.Select(y => new { y.Id, y.Title })
+            }).ToListAsync();
         }
     }
 }
