@@ -32,9 +32,9 @@ namespace StarWars.Infra.Context.StarWars.UseCases.GetFilms
                     Producer = x.Producer,
                     ReleaseDate = x.ReleaseDate,
                     Characters = x.Characters.Select(y => new { y.Id, y.Name }),
-                    Planets = x.Planets.Select(y => new { y.Id, y.Name }),
+                    Planets = x.Planets.Select(y => new {Id = y.Id, Title = y.Name }),
                     Vehicles = x.Vehicles.Select(y => new { y.Id, y.Name }),
-                    Spaceships = x.Spaceships.Select(y => new { y.Id, y.Name })
+                    Starships = x.Spaceships.Select(y => new { y.Id, y.Name })
                 }).ToListAsync();
         }
     }

@@ -39,7 +39,7 @@ namespace StarWars.Infra.Context.StarWars.UseCases.GetSpaceships
                     HyperdriveRating = x.HyperdriveRating,
                     MGLT = x.MGLT,
                     Class = x.Class,
-                    Films = x.Films.Select(y=> new {y.Id, y.Title})
+                    Movies = x.Films.Select(y=> new {y.Id, y.Title})
                 }).ToListAsync();
         }
     }
