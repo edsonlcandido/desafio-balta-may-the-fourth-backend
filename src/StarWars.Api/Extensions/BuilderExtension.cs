@@ -51,5 +51,16 @@ public static class BuilderExtension
         );
 
     }
+
+    public static void AddSwaggerConfiguration(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddOpenApiDocument(config =>
+        {
+            config.DocumentName = "StarWarsInfoApi";
+            config.Title = "StarWarsInfoApi v1";
+            config.Version = "v1";
+        });
+    }
     
 }
