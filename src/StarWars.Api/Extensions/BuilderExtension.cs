@@ -10,6 +10,16 @@ public static class BuilderExtension
     {
         Configuration.Database.ConnectionString =
             builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+
+        Configuration.Cors.CorsPolicyName = 
+            builder.Configuration.GetSection("Cors").GetValue<string>("CorsPolicyName") ?? string.Empty;
+
+        Configuration.Cors.BackendUrl = 
+            builder.Configuration.GetSection("Cors").GetValue<string>("BackendUrl") ?? string.Empty;
+
+        Configuration.Cors.FrontendUrl = 
+            builder.Configuration.GetSection("Cors").GetValue<string>("FrontendUrl") ?? string.Empty;
+        
     }
 
     public static void AddDatabase(this WebApplicationBuilder builder)
@@ -25,6 +35,21 @@ public static class BuilderExtension
     {
         builder.Services.AddMediatR(x
             => x.RegisterServicesFromAssembly(typeof(Configuration).Assembly));
+    }
+
+    public static void AddCorsConfiguration(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(
+            x => x.AddPolicy(
+                Configuration.Cors.CorsPolicyName,
+                policy => policy
+                .WithOrigins([Configuration.Cors.BackendUrl, Configuration.Cors.FrontendUrl])
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+            )
+        );
+
     }
     
 }

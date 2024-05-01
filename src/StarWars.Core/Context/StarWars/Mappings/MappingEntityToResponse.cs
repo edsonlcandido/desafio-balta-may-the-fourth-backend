@@ -23,18 +23,13 @@ public static class MappingEntityToResponse
             CargoCapacity = vehicle.CargoCapacity,
             Consumables = vehicle.Consumables,
             Class = vehicle.Class,
-            Films = vehicle.Films?.Select(x => x.ConvertToResponse()).ToList(),
+            Movies = vehicle.Films?.Select(x => x.ConvertToResponse()).ToList(),
         };                    
 
     public  static Core.Context.StarWars.ViewObjets.Film ConvertToResponse(this Film film) =>
         new Core.Context.StarWars.ViewObjets.Film(){             
             Id = film.Id,
             Title = film.Title,
-            Episode = film.Episode,
-            OpeningCrawl = film.OpeningCrawl,
-            Director = film.Director,
-            Producer = film.Producer,
-            ReleaseDate = film.ReleaseDate 
         }; 
                   
 }
