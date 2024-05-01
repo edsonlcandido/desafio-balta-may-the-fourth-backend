@@ -67,6 +67,20 @@ public static class StarWarsExtension
 
         #endregion
 
+        #region builder Planet
+
+              builder.Services.AddTransient<
+                  Core.Context.StarWars.UseCases.GetPlanets.Contracts.IRepository,
+                  Infra.Context.StarWars.UseCases.GetPlanets.Repository
+              >();
+
+              builder.Services.AddTransient<
+                  Core.Context.StarWars.UseCases.GetPlanetById.Contracts.IRepository,
+                  Infra.Context.StarWars.UseCases.GetPlanetById.Repository
+              >();
+
+        #endregion
+
     }
 
     public static void MapStarWarsEndpoints(this WebApplication app)
@@ -151,12 +165,6 @@ public static class StarWarsExtension
 
         #endregion
 
-        #region EndPoint Planetas
-        
-        app.MapGet("api/v1/planetas", () => "planetas");
-        
-        #endregion
-
         #region EndPoint Vehicle
 
         app.MapGet("api/v1/veiculos", async (
@@ -231,6 +239,35 @@ public static class StarWarsExtension
                        Core.Context.StarWars.UseCases.GetSpaceshipById.Response> handler) =>
         {
                 var request = new Core.Context.StarWars.UseCases.GetSpaceshipById.Request
+                {
+                    Id = id
+                };
+                var result = await handler.Handle(request, new CancellationToken());
+                if (result.IsSuccess)
+                    return Results.Ok(result);
+                return Results.Json(result, statusCode: result.Status);
+            });
+
+        #endregion
+
+
+        #region EndPoint Planets
+
+        app.MapGet("api/v1/planetas", async (IRequestHandler<Core.Context.StarWars.UseCases.GetPlanets.Request, 
+            Core.Context.StarWars.UseCases.GetPlanets.Response> handler) =>
+            {
+                var request = new Core.Context.StarWars.UseCases.GetPlanets.Request();
+                var result = await handler.Handle(request, new CancellationToken());
+                if (result.IsSuccess)
+                    return Results.Ok(result);
+                return Results.Json(result, statusCode: result.Status);
+            }
+        );
+
+        app.MapGet("api/v1/planetas/{id:int}", async (int id, IRequestHandler<Core.Context.StarWars.UseCases.GetPlanetById.Request,
+                       Core.Context.StarWars.UseCases.GetPlanetById.Response> handler) =>
+        {
+                var request = new Core.Context.StarWars.UseCases.GetPlanetById.Request
                 {
                     Id = id
                 };
