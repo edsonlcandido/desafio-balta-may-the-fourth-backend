@@ -39,6 +39,6 @@ namespace StarWars.Core.Context.StarWars.UseCases.GetSpaceshipById
         public string HyperdriveRating { get; set; } = string.Empty;
         public string MGLT { get; set; } = string.Empty;
         public string Class { get; set; } = string.Empty;
-        public IEnumerable<dynamic> Films { get; set; } = [];
+        public IEnumerable<dynamic> Movies { get; set; } = [];
     }
 }
