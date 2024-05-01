@@ -32,7 +32,7 @@ namespace StarWars.Infra.Context.StarWars.UseCases.GetCharacterById
                     Name = x.Name,
                     SkinColor = x.SkinColor,
                     Weight = x.Weight,
-                    Planet = new { Id = x.Planet.Id, Name = x.Planet.Name },
+                    Planet = new { Id = x.Planet.Id, Title = x.Planet.Name },
                     Movies = x.Films.Select(y => new { y.Id, y.Title })
 
                 }).FirstOrDefaultAsync();
