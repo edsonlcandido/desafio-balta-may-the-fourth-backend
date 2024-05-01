@@ -57,7 +57,7 @@ namespace StarWars.Tests.Contexts.StarWars.Entities
         public void Deve_conseguir_converter_os_objetos_referenciados()
         {
             var response = vehicle.ConvertToResponse();
-            var filmes = response?.Films?.FirstOrDefault();
+            var filmes = response?.Movies?.FirstOrDefault();
             Assert.IsType<Core.Context.StarWars.ViewObjets.Film>(filmes);
         }
     }

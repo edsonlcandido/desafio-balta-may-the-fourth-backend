@@ -64,7 +64,6 @@ public class CharacterMap : IEntityTypeConfiguration<Character>
 
         builder.HasOne(x => x.Planet)
             .WithMany(y => y.Characters)
-            // .HasForeignKey("FK_Character_Planet")
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
