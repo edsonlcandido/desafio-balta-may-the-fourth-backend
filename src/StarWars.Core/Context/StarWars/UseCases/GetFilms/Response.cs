@@ -29,5 +29,5 @@ public class ResponseData
     public IEnumerable<dynamic> Characters { get; set;} = [];
     public IEnumerable<dynamic> Planets { get; set; } = [];
     public IEnumerable<dynamic> Vehicles { get; set; } = [];
-    public IEnumerable<dynamic> Spaceships { get; set; } = [];
+    public IEnumerable<dynamic> Starships { get; set; } = [];
 }

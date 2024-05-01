@@ -267,15 +267,17 @@ public static class StarWarsExtension
         app.MapGet("api/v1/planetas/{id:int}", async (int id, IRequestHandler<Core.Context.StarWars.UseCases.GetPlanetById.Request,
                        Core.Context.StarWars.UseCases.GetPlanetById.Response> handler) =>
         {
-                var request = new Core.Context.StarWars.UseCases.GetPlanetById.Request
-                {
-                    Id = id
-                };
-                var result = await handler.Handle(request, new CancellationToken());
-                if (result.IsSuccess)
-                    return Results.Ok(result);
-                return Results.Json(result, statusCode: result.Status);
-            });
+            var request = new Core.Context.StarWars.UseCases.GetPlanetById.Request
+            {
+                Id = id
+            };
+                
+            var result = await handler.Handle(request, new CancellationToken());
+            if (result.IsSuccess)
+                return Results.Ok(result);
+                
+            return Results.Json(result, statusCode: result.Status);
+        });
 
         #endregion
     }
