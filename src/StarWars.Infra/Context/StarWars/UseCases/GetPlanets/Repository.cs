@@ -32,7 +32,7 @@ public class Repository : IRepository
                 Terrain = x.Terrain,
                 SurfaceWater = x.SurfaceWater,
                 Population = x.Population,
-                Characters = x.Characters.Select(x => new { id = x.Id, name = x.Name }),
+                Characters = x.Characters.Select(x => new { id = x.Id, title = x.Name }),
                 Movies = x.Films.Select(x => new { id = x.Id, title = x.Title })
             }).ToListAsync();
     }
