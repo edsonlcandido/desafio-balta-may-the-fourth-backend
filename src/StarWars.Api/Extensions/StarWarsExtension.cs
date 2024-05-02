@@ -1,6 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using StarWars.Core.Context.StarWars.UseCases.GetFilmById;
 
 namespace StarWars.Api.Extensions;
 
@@ -22,9 +20,6 @@ public static class StarWarsExtension
             Core.Context.StarWars.UseCases.GetFilmById.Contract.IRepository,
             Infra.Context.StarWars.UseCases.GetFilmById.Repository
         >();
-
-        
-
         #endregion
 
         #region builder Vehicle
@@ -80,7 +75,6 @@ public static class StarWarsExtension
               >();
 
         #endregion
-
     }
 
     public static void MapStarWarsEndpoints(this WebApplication app)

@@ -14,7 +14,7 @@ var app = builder.Build();
 app.UseCors(Configuration.Cors.CorsPolicyName);
 app.UseHttpsRedirection();
 app.MapStarWarsEndpoints();
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Hello World!").ExcludeFromDescription();
 
 app.UseOpenApi();
     app.UseSwaggerUi(config =>

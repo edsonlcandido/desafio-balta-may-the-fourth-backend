@@ -34,7 +34,7 @@ Davi Francisco [/KingOfTheHunt](https://github.com/KingOfTheHunt)
 * Muito conhecimento técnico
 
 ## 🧪 Como testar o projeto
-[DESCREVER COMO EXECUTAR O PROJETO]
+Basta executar o dotnet run dentro do projeto StarWars.Api
 
 # 💜 Participe
 Quer participar dos próximos desafios? Junte-se a [maior comunidade .NET do Brasil 🇧🇷 💜](https://balta.io/discord)
